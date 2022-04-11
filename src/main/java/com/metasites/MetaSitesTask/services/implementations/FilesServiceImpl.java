@@ -13,6 +13,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.util.*;
 import java.util.concurrent.*;
+import java.util.stream.Collectors;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
@@ -20,15 +21,18 @@ import java.util.zip.ZipOutputStream;
 public class FilesServiceImpl implements FilesService {
 
     public static final int ThreadPoolSize = 10;
+    public static final String FILE_TYPE = "text/plain";
     final List<String> charactersRangeList = List.of("A-G", "H-N", "O-U", "V-Z");
 
 
     @Override
-    public List<File> consumingFiles(MultipartFile[] files) throws ExecutionException, InterruptedException, IOException {
-
-        Map<String, Integer> frequencyOfWordsMap = new ConcurrentSkipListMap<>();
+    public List<File> consumingFiles(List<MultipartFile> files) throws ExecutionException, InterruptedException {
 
         ExecutorService executorService = Executors.newFixedThreadPool(ThreadPoolSize);
+
+        files = files.stream().filter(file -> FILE_TYPE.equals(file.getContentType())).collect(Collectors.toList());
+
+        Map<String, Integer> frequencyOfWordsMap = new ConcurrentSkipListMap<>();
 
         executeFileReadingTasks(files, frequencyOfWordsMap, executorService);
 
@@ -68,7 +72,7 @@ public class FilesServiceImpl implements FilesService {
         return fileCreatingTaskFutures;
     }
 
-    private void executeFileReadingTasks(MultipartFile[] files, Map<String, Integer> frequencyOfWordsMap, ExecutorService executorService) throws InterruptedException, ExecutionException {
+    private void executeFileReadingTasks(List<MultipartFile> files, Map<String, Integer> frequencyOfWordsMap, ExecutorService executorService) throws InterruptedException, ExecutionException {
         Set<Future<Boolean>> fileReadingTaskFutures = new HashSet<>();
         for (MultipartFile file : files) {
             FileReadingTask fileReadingTask = new FileReadingTask(file, frequencyOfWordsMap);

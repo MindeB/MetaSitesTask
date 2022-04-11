@@ -29,7 +29,7 @@ public class FilesController {
 
 
     @PostMapping(value = "/upload", consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = "application/zip")
-    public ResponseEntity<StreamingResponseBody> uploadFiles(@RequestParam("files") MultipartFile[] files) throws ExecutionException, InterruptedException, IOException {
+    public ResponseEntity<StreamingResponseBody> uploadFiles(@RequestParam("files") List<MultipartFile> files) throws ExecutionException, InterruptedException, IOException {
         List<File> fileList = filesService.consumingFiles(files);
         return ResponseEntity
                 .ok()

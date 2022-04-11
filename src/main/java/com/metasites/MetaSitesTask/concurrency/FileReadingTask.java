@@ -50,13 +50,6 @@ public class FileReadingTask implements Callable<Boolean> {
     }
 
     private String replaceAllSpecialSymbolsAndNumbersInString(String s) {
-//        s = s.replaceAll("[0-9]", " ");
-//        return s.replaceAll("[^a-zA-Z0-9]"," ");
         return s.replaceAll("\\P{L}", " ");
     }
-
-    private boolean isWordNumeric(String word) {
-        return word.matches("^[0-9]*$");
-    }
-
 }

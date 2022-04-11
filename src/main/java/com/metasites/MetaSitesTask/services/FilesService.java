@@ -10,7 +10,7 @@ import java.util.concurrent.ExecutionException;
 
 public interface FilesService {
 
-    List<File> consumingFiles(MultipartFile[] files) throws ExecutionException, InterruptedException, IOException;
+    List<File> consumingFiles(List<MultipartFile> files) throws ExecutionException, InterruptedException, IOException;
 
     void prepareFilesIntoZip(List<File> fileList, OutputStream out) throws IOException;
 }
