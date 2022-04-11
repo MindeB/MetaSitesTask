@@ -9,6 +9,14 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 public class WebConfiguration implements WebMvcConfigurer {
 
     @Override
+    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+
+        registry
+                .addResourceHandler("/properties/**")
+                .addResourceLocations("file:/env/");
+    }
+
+    @Override
     public void addViewControllers(ViewControllerRegistry registry) {
         registry.addRedirectViewController("/swagger", "/swagger-ui.html");
     }
