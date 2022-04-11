@@ -1,0 +1,14 @@
+springdoc:
+  api-docs:
+    path: /api/v3/api-docs
+  swagger-ui:
+    title: MetaSites Interview Project
+    description: API for MetaSites Interview Project
+    version: 1.0.0
+    path: /swagger-ui.html
+
+spring:
+  servlet:
+    multipart:
+      max-file-size: 150MB
+      max-request-size: 150MB
